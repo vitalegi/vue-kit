@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import { ApiError, SessionExpiredError, createApiClient, type ApiClientOptions } from '../index'
+import { ApiError, SessionExpiredError, createApiClient, type ApiClientOptions } from '../index.js'
 
 function response(status: number, body: unknown = {}): Response {
   return new Response(status === 204 ? null : JSON.stringify(body), {

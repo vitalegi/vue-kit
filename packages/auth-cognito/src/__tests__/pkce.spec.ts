@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { base64UrlEncode, buildAuthorizeUrl, generateCodeChallenge, generateRandomString } from '../pkce'
+import { base64UrlEncode, buildAuthorizeUrl, generateCodeChallenge, generateRandomString } from '../pkce.js'
 
 describe('pkce', () => {
   describe('given the RFC 7636 example verifier', () => {

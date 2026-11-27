@@ -2,7 +2,7 @@ import { createPinia, setActivePinia } from 'pinia'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { createMemoryHistory, createRouter } from 'vue-router'
 import { SessionExpiredError } from '@vitalegi/api-client'
-import { createAuthenticatedApiClient, defineAuthStore } from '../index'
+import { createAuthenticatedApiClient, defineAuthStore } from '../index.js'
 
 const Empty = { render: () => null }
 

@@ -31,5 +31,5 @@ Un pezzo di codice entra nel kit solo se serve ad almeno due app. Restano nelle 
 ## Note tecniche
 
 - Nei test e nel type-check i pacchetti del workspace si risolvono dai sorgenti (alias in `vitest.config.ts`, `paths` nei `tsconfig.json`). Il build usa `dist/` (`tsconfig.build.json`).
-- Output ESM con import senza estensione: va consumato tramite un bundler (Vite), non direttamente da Node.
+- Output ESM valido anche per Node: gli import relativi nei sorgenti hanno l'estensione `.js` (`moduleResolution: NodeNext`, che dà errore se manca). `pnpm check:dist` importa la `dist` con Node puro e fallisce se un pacchetto non si carica.
 - Gli script della root filtrano i pacchetti con `--filter './packages/*'`. Gli apici servono: senza, la shell espande il glob.

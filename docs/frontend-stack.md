@@ -138,7 +138,7 @@ Esito del pilota su pathfinder-fe (2026-11-27):
   - la variante `outline` di Nuxt UI ha lo sfondo bianco: sui fondi scuri (viewer) serve uno stile scoped trasparente.
 - [x] **Peso del bundle**: JS da 518 a 781 KB (gzip da 130 a 252 KB), CSS da 23 a 221 KB (gzip da 7 a 30 KB). La `dist` complessiva scende da 1,22 a 1,05 MB perché spariscono i font di primeicons. Circa +145 KB gzip: accettabile per un'app installata, ma da tenere d'occhio. Il CSS cresce perché Tailwind genera le classi di tutti i componenti Nuxt UI, non solo di quelli usati.
 - [x] **`UDrawer` su iPhone**: swipe verso l'alto per chiudere verificato (eventi touch in emulazione iPhone 15 Pro), scroll interno con `max-h-[80vh]` sul contenuto. Il drawer non ha un pulsante di chiusura: aggiunto nell'header per il desktop. Safe area: aggiunto `pt-[env(safe-area-inset-top)]` (il drawer parte dall'alto), da verificare sul telefono reale nella PWA installata, perché l'emulazione non simula il notch.
-- [ ] **Vitest nelle app con i pacchetti `@vitalegi` 0.1.0**: la `dist` ha import interni senza estensione, che Node non risolve. Nelle app serve `test.server.deps.inline: [/@vitalegi\//]`; meglio emettere import con estensione `.js` nei pacchetti.
+- [x] **Vitest nelle app con i pacchetti `@vitalegi`**: emerso nel pilota (la `dist` aveva import interni senza estensione). Corretto nel kit prima della pubblicazione su npm: import `.js`, `NodeNext` e controllo `pnpm check:dist`. Il workaround `test.server.deps.inline` in pathfinder-fe si può togliere dopo l'installazione da npm.
 - [ ] Tema scuro: il viewer di pathfinder è scuro, il resto dell'app no; decidere se supportare `prefers-color-scheme`.
 - [x] Dove pubblicare il kit: npm pubblico (deciso il 2026-11-27).
 

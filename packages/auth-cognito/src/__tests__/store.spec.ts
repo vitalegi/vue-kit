@@ -1,6 +1,6 @@
 import { createPinia, setActivePinia } from 'pinia'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { defineAuthStore, type CognitoAuthConfig } from '../index'
+import { defineAuthStore, type CognitoAuthConfig } from '../index.js'
 
 interface User {
   sub: string

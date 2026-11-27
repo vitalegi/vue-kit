@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { computed, ref, type Ref } from 'vue'
-import { resolveConfig, type CognitoAuthConfig } from './config'
-import { buildAuthorizeUrl, generateCodeChallenge, generateRandomString } from './pkce'
+import { resolveConfig, type CognitoAuthConfig } from './config.js'
+import { buildAuthorizeUrl, generateCodeChallenge, generateRandomString } from './pkce.js'
 
 interface TokenResponse {
   access_token: string

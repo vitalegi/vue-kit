@@ -1,4 +1,4 @@
-import { ApiError, SessionExpiredError, type SessionExpiredReason } from './errors'
+import { ApiError, SessionExpiredError, type SessionExpiredReason } from './errors.js'
 
 export interface ApiClientOptions {
   /** Prefisso dei path relativi, es. "/api". Gli URL assoluti (http/https) restano invariati. */

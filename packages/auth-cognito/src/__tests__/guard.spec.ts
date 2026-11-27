@@ -1,7 +1,7 @@
 import { createPinia, setActivePinia } from 'pinia'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { createMemoryHistory, createRouter, type Router } from 'vue-router'
-import { installAuthGuard } from '../index'
+import { installAuthGuard } from '../index.js'
 
 const Empty = { render: () => null }
 

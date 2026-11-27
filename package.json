@@ -14,10 +14,11 @@
     "lint": "oxlint . && eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "check": "pnpm format:check && pnpm lint && pnpm type-check && pnpm test && pnpm build",
+    "check": "pnpm format:check && pnpm lint && pnpm type-check && pnpm test && pnpm build && pnpm check:dist",
     "changeset": "changeset",
     "version-packages": "changeset version",
-    "release": "pnpm build && changeset publish"
+    "release": "pnpm build && changeset publish",
+    "check:dist": "node scripts/check-dist.mjs"
   },
   "devDependencies": {
     "@changesets/cli": "^3.0.3",
