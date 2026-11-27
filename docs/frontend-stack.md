@@ -118,20 +118,27 @@ Un pezzo entra nel kit quando serve ad almeno due app.
 
 ## 6. Piano di migrazione
 
-| Fase | Cosa                                                                                                                                                                                   | Perché in quest'ordine                                                         |
-| ---- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| 1    | **Pilota su pathfinder-fe**: Nuxt UI + Tailwind al posto di PrimeVue (Button, Checkbox, SelectButton, Menu, Drawer, Accordion)                                                         | È il più piccolo, valida le assunzioni aperte e toglie il banner della licenza |
-| 2    | **Creazione di `vue-kit`** con `api-client` e `auth-cognito` estratti da pathfinder e spesucce. _Stato: pacchetti 0.1.0 pronti e testati, non ancora pubblicati né adottati dalle app_ | Il codice c'è già ed è quasi identico                                          |
-| 3    | **spesucce-fe** su Nuxt UI e vue-kit                                                                                                                                                   | È il più ricco di componenti: è il vero banco di prova della libreria          |
-| 4    | **mangar-fe**: da Quasar CLI a Vite, Nuxt UI, vue-kit e SSO Cognito                                                                                                                    | È il lavoro più grande (build e auth insieme)                                  |
-| 5    | **Nuovi progetti** partono da un template `vitalegi/web-template` (Vite + stack + vue-kit già configurati)                                                                             |                                                                                |
+| Fase | Cosa                                                                                                                                                                                                                                                                                      | Perché in quest'ordine                                                         |
+| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| 1    | **Pilota su pathfinder-fe**: Nuxt UI + Tailwind al posto di PrimeVue (Button, Checkbox, SelectButton, Menu, Drawer, Accordion). _Stato (2026-11-27): fatto, con `api-client` e `auth-cognito` adottati; manca solo il lockfile, da rigenerare dopo la pubblicazione dei pacchetti su npm_ | È il più piccolo, valida le assunzioni aperte e toglie il banner della licenza |
+| 2    | **Creazione di `vue-kit`** con `api-client` e `auth-cognito` estratti da pathfinder e spesucce. _Stato: pacchetti 0.1.0 pronti e testati, non ancora pubblicati né adottati dalle app_                                                                                                    | Il codice c'è già ed è quasi identico                                          |
+| 3    | **spesucce-fe** su Nuxt UI e vue-kit                                                                                                                                                                                                                                                      | È il più ricco di componenti: è il vero banco di prova della libreria          |
+| 4    | **mangar-fe**: da Quasar CLI a Vite, Nuxt UI, vue-kit e SSO Cognito                                                                                                                                                                                                                       | È il lavoro più grande (build e auth insieme)                                  |
+| 5    | **Nuovi progetti** partono da un template `vitalegi/web-template` (Vite + stack + vue-kit già configurati)                                                                                                                                                                                |                                                                                |
 
 ## 7. Punti aperti da verificare nel pilota
 
-- [ ] Icone Lucide incluse nella build, senza chiamate all'API Iconify (CSP).
-- [ ] Convivenza di Tailwind v4 con gli stili `scoped` esistenti, senza regressioni visive (screenshot Playwright prima e dopo).
-- [ ] Peso del bundle rispetto a PrimeVue.
-- [ ] `UDrawer` su iPhone: swipe, safe area, scroll interno (pannello filtri).
+Esito del pilota su pathfinder-fe (2026-11-27):
+
+- [x] **Icone Lucide incluse nella build**, senza chiamate all'API Iconify: `@iconify-json/lucide` + opzione `icon: { clientBundle: { scan: true } }` del plugin Vite. Verificato servendo la build di produzione con il CSP di `nginx.conf`: nessuna violazione e nessuna richiesta esterna. Il CSP non cambia.
+- [x] **Tailwind v4 con gli stili `scoped`**: nessuna regressione visiva (screenshot Playwright prima e dopo, iPhone 15 Pro e desktop), con quattro accorgimenti da ripetere nelle altre app:
+  - gli stili globali (reset, `body`, `a`...) vanno nel layer `base` (`@import './base.css' layer(base)`): fuori dai layer sovrascrivono le utility dei componenti Nuxt UI (es. `* { font-weight: normal }` annullava `font-medium`);
+  - il preflight di Tailwind azzera la dimensione dei titoli: vanno ripristinati quelli usati senza classi;
+  - `#app` deve avere `class="isolate"`, altrimenti drawer e menu (in fondo al body, `z-index: auto`) finiscono sotto gli elementi sticky;
+  - la variante `outline` di Nuxt UI ha lo sfondo bianco: sui fondi scuri (viewer) serve uno stile scoped trasparente.
+- [x] **Peso del bundle**: JS da 518 a 781 KB (gzip da 130 a 252 KB), CSS da 23 a 221 KB (gzip da 7 a 30 KB). La `dist` complessiva scende da 1,22 a 1,05 MB perché spariscono i font di primeicons. Circa +145 KB gzip: accettabile per un'app installata, ma da tenere d'occhio. Il CSS cresce perché Tailwind genera le classi di tutti i componenti Nuxt UI, non solo di quelli usati.
+- [x] **`UDrawer` su iPhone**: swipe verso l'alto per chiudere verificato (eventi touch in emulazione iPhone 15 Pro), scroll interno con `max-h-[80vh]` sul contenuto. Il drawer non ha un pulsante di chiusura: aggiunto nell'header per il desktop. Safe area: aggiunto `pt-[env(safe-area-inset-top)]` (il drawer parte dall'alto), da verificare sul telefono reale nella PWA installata, perché l'emulazione non simula il notch.
+- [ ] **Vitest nelle app con i pacchetti `@vitalegi` 0.1.0**: la `dist` ha import interni senza estensione, che Node non risolve. Nelle app serve `test.server.deps.inline: [/@vitalegi\//]`; meglio emettere import con estensione `.js` nei pacchetti.
 - [ ] Tema scuro: il viewer di pathfinder è scuro, il resto dell'app no; decidere se supportare `prefers-color-scheme`.
 - [x] Dove pubblicare il kit: npm pubblico (deciso il 2026-11-27).
 
