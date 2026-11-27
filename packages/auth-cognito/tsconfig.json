@@ -1,0 +1,11 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "types": ["vitest/globals"],
+    "paths": {
+      "@vitalegi/api-client": ["../api-client/src/index.ts"]
+    }
+  },
+  "include": ["src"]
+}

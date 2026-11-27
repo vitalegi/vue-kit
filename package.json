@@ -1,0 +1,39 @@
+{
+  "name": "vue-kit",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@12.23.0",
+  "description": "Codice condiviso dai frontend Vue di vitalegi",
+  "engines": {
+    "node": "^22.18.0 || >=24.12.0"
+  },
+  "scripts": {
+    "build": "pnpm -r --filter './packages/*' run build",
+    "type-check": "pnpm -r --filter './packages/*' run type-check",
+    "test": "vitest run",
+    "lint": "oxlint . && eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check": "pnpm format:check && pnpm lint && pnpm type-check && pnpm test && pnpm build",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "pnpm build && changeset publish"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^3.0.3",
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^24.19.4",
+    "eslint": "^10.15.0",
+    "eslint-plugin-oxlint": "^1.95.0",
+    "globals": "^17.14.0",
+    "jsdom": "^31.0.1",
+    "oxlint": "^1.95.0",
+    "pinia": "^4.1.0",
+    "prettier": "^3.10.1",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.74.0",
+    "vitest": "^4.1.12",
+    "vue": "^3.5.46",
+    "vue-router": "^5.5.3"
+  }
+}
