@@ -14,20 +14,13 @@ In programma (vedi `docs/frontend-stack.md`, §5): `@vitalegi/ui-theme`, `@vital
 
 ## Usare i pacchetti in un'app
 
-I pacchetti sono pubblicati su **GitHub Packages**. Nell'app:
+I pacchetti sono pubblicati su **npmjs.com**, pubblici: si installano come qualunque altro pacchetto, senza token né `.npmrc`.
 
-1. Aggiungi un file `.npmrc` (versionato, senza segreti):
+```bash
+pnpm add @vitalegi/auth-cognito
+```
 
-   ```
-   @vitalegi:registry=https://npm.pkg.github.com
-   //npm.pkg.github.com/:_authToken=${GITHUB_PACKAGES_TOKEN}
-   ```
-
-2. Imposta la variabile `GITHUB_PACKAGES_TOKEN` sul PC di build e nella CI. Serve un token GitHub _classic_ con lo scope `read:packages`: i token fine-grained non funzionano con il registry npm di GitHub Packages.
-
-3. Installa: `pnpm add @vitalegi/auth-cognito`.
-
-La build dell'immagine Docker sul Raspberry usa la `dist/` già compilata sul PC, quindi lì non serve nessun token.
+Ogni versione è pubblicata con la _provenance_ di npm: sulla pagina del pacchetto si vede il commit e la workflow che l'hanno prodotta.
 
 I pacchetti sono ESM, distribuiti come JavaScript compilato con i tipi (`.d.ts`), pensati per app compilate con Vite.
 
@@ -66,6 +59,8 @@ cd ../pathfinder/pathfinder-fe && pnpm link ../../vue-kit/packages/auth-cognito
 
 1. Ogni modifica a un pacchetto da rilasciare include un changeset (`pnpm changeset`: tipo patch/minor/major e una riga di descrizione).
 2. Al merge su `main`, la workflow **Release** apre o aggiorna la PR "Version Packages", con versioni e CHANGELOG aggiornati.
-3. Quando quella PR viene unita, la workflow pubblica su GitHub Packages le versioni nuove.
+3. Quando quella PR viene unita, la workflow pubblica su npmjs.com le versioni nuove, con un tag git e una GitHub Release per ciascuna.
+
+La pubblicazione usa il secret `NPM_TOKEN` del repository: un token npm _Granular_ con permesso di lettura e scrittura sui pacchetti dello scope `@vitalegi`.
 
 Le app fissano la versione e aggiornano quando vogliono.

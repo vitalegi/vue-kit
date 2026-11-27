@@ -3,6 +3,11 @@
   "version": "0.1.0",
   "description": "Wrapper su fetch per i backend: autenticazione, un solo refresh per più 401 contemporanei, errori tipizzati",
   "license": "MIT",
+  "author": "vitalegi",
+  "homepage": "https://github.com/vitalegi/vue-kit/tree/main/packages/api-client#readme",
+  "bugs": {
+    "url": "https://github.com/vitalegi/vue-kit/issues"
+  },
   "type": "module",
   "sideEffects": false,
   "repository": {
@@ -18,10 +23,12 @@
   },
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "access": "public",
+    "provenance": true
   },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",

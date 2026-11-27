@@ -1,7 +1,8 @@
 name: Release
 
 # Su main: se ci sono changeset apre (o aggiorna) la PR "Version Packages";
-# quando quella PR viene unita, pubblica su GitHub Packages le versioni non ancora pubblicate.
+# quando quella PR viene unita, pubblica su npmjs.com (pubblico) le versioni non ancora pubblicate,
+# con provenance e con un tag git e una GitHub Release per ogni versione.
 on:
   push:
     branches: [main]
@@ -11,7 +12,8 @@ concurrency: release-${{ github.ref }}
 permissions:
   contents: write
   pull-requests: write
-  packages: write
+  # token OIDC per la provenance di npm
+  id-token: write
 
 jobs:
   release:
@@ -21,13 +23,11 @@ jobs:
       - uses: pnpm/action-setup@v6
       - uses: actions/setup-node@v7
         with:
-          node-version: 22
+          # Node 24 include npm 11, necessario per la provenance
+          node-version: 24
           cache: pnpm
-          registry-url: https://npm.pkg.github.com
-          scope: '@vitalegi'
+          registry-url: https://registry.npmjs.org
       - run: pnpm install --frozen-lockfile
-      # v2: commit e tag (uno per pacchetto e versione) vengono pushati tramite l'API di GitHub,
-      # con una GitHub Release per ogni versione pubblicata
       - uses: changesets/action@v2
         with:
           version-script: pnpm version-packages
@@ -35,4 +35,7 @@ jobs:
           pr-title: 'Version Packages'
           commit-message: 'Version Packages'
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # token npm di tipo "Granular" con permesso di pubblicazione sullo scope @vitalegi (secret del repository)
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: 'true'

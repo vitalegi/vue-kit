@@ -111,11 +111,10 @@ Un pezzo entra nel kit quando serve ad almeno due app.
 
 ### Distribuzione e versioni
 
-- **Pubblicazione**: su **GitHub Packages** (registry npm privato del tuo account). Ogni progetto lo legge con un `.npmrc` (`@vitalegi:registry=https://npm.pkg.github.com`) e un token _classic_ con scope `read:packages`, sul PC di build e nella CI (dettagli nel README di vue-kit).
+- **Pubblicazione**: su **npmjs.com**, pacchetti pubblici sotto lo scope `@vitalegi` (non contengono segreti: domini e client id stanno nelle variabili delle app). Si installano senza token né `.npmrc`, sul PC, in CI e nelle sessioni cloud. Ogni versione ha la provenance di npm. [superato] GitHub Packages: richiedeva un token anche per installare.
 - **Versioni**: semver, una per pacchetto, gestite con **Changesets**. Ogni app fissa la versione e aggiorna quando vuole.
 - **Test**: nel kit, con la stessa disciplina delle app. Le app non ritestano il kit, ma solo come lo usano.
 - **Sviluppo in parallelo**: kit e app insieme con `pnpm link`, senza pubblicare.
-- **Se GitHub Packages diventa scomodo** (token da gestire): dipendenza git con tag (`github:vitalegi/vue-kit#v1.2.0`), oppure pacchetti pubblici sotto lo scope `@vitalegi` su npm, visto che non contengono segreti.
 
 ## 6. Piano di migrazione
 
@@ -134,7 +133,7 @@ Un pezzo entra nel kit quando serve ad almeno due app.
 - [ ] Peso del bundle rispetto a PrimeVue.
 - [ ] `UDrawer` su iPhone: swipe, safe area, scroll interno (pannello filtri).
 - [ ] Tema scuro: il viewer di pathfinder è scuro, il resto dell'app no; decidere se supportare `prefers-color-scheme`.
-- [ ] Dove pubblicare il kit: GitHub Packages o npm pubblico.
+- [x] Dove pubblicare il kit: npm pubblico (deciso il 2026-11-27).
 
 ## 8. Rischi
 

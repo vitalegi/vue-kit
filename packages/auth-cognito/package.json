@@ -3,6 +3,11 @@
   "version": "0.1.0",
   "description": "Login PKCE sulla Hosted UI di Cognito per app Vue: store Pinia, guard del router e client API autenticato",
   "license": "MIT",
+  "author": "vitalegi",
+  "homepage": "https://github.com/vitalegi/vue-kit/tree/main/packages/auth-cognito#readme",
+  "bugs": {
+    "url": "https://github.com/vitalegi/vue-kit/issues"
+  },
   "type": "module",
   "sideEffects": false,
   "repository": {
@@ -18,10 +23,12 @@
   },
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "access": "public",
+    "provenance": true
   },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
