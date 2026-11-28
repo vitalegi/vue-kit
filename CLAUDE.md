@@ -18,6 +18,7 @@ Un pezzo di codice entra nel kit solo se serve ad almeno due app. Restano nelle 
 
 ## Regole di lavoro
 
+- **Richieste ambigue**: se una richiesta non è chiara, fermarsi e chiedere prima di lavorare. Se si può leggere in più modi che portano a lavoro diverso, fare una domanda breve con le opzioni, anche se una lettura sembra la più probabile. Sui dettagli con una scelta ovvia procedere, e dirlo.
 - **TDD**: prima il test che fallisce, poi il codice.
 - **Struttura dei test**: blocchi annidati `describe('given …')` / `describe('when …')` / `it('then …')`, in `src/__tests__/` accanto al codice.
 - **Contenuto dei test**: ogni test ha almeno un'asserzione e verifica un comportamento del codice, mai solo i dati messi nei mock.
